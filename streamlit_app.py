@@ -3,13 +3,12 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import openai
 
 st.set_page_config(page_title="Dream11 IPL Predictor", layout="wide")
 
 # Sidebar
-st.sidebar.title("🏏 IPL Dream11 Predictor")
-menu_option = st.sidebar.radio("Navigate", ["Home", "Team Predictor", "Player Analysis", "Match Insights"])
+st.sidebar.title("🏏 IPL Analyzer / Dream 11 Predictor ")
+menu_option = st.sidebar.radio("Navigate", ["Home", "Team Predictor","Live Match status","Player Analysis", "Team Analysis"])
 
 # Title
 st.title("🏆 IPL Fantasy Assistant")

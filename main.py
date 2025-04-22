@@ -7,8 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# importing the data
-df = pd.read_csv("data/cricket_data_2025.csv")
+global team_data , player_data 
+
 
 
 
@@ -94,74 +94,78 @@ def player_performance(player_name):
         'Five Wicket Hauls': w
     }
 
-    print(f"Performance statistics for {player_name}:")
-    for key, value in result.items():
-       print(f"{key}: {value}")
-    #return(result)
+    # print(f"Performance statistics for {player_name}:")
+    # for key, value in result.items():
+    #    print(f"{key}: {value}")
+    return(result)
 
 
 def batting_analysis(player_name):
     # Plotting the performance over the years
-    plt.figure(figsize=(12, 6))
-    plt.plot(player_data['Year'], player_data['Runs_Scored'], marker='o', label='Runs Scored')
-    plt.bar(player_data['Year'], player_data['Balls_Faced'], alpha=0.5, label='Balls Faced', color='orange')
-    plt.title(f"Performance of {player_name} Over the Years")
-    plt.xlabel("Year")
-    plt.ylabel("Performance")
-    plt.xticks(player_data['Year'])
-    plt.legend()
-    plt.grid()
-    plt.show()
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.plot(player_data['Year'], player_data['Runs_Scored'], marker='o', label='Runs Scored')
+    ax.bar(player_data['Year'], player_data['Balls_Faced'], alpha=0.5, label='Balls Faced', color='orange')
+    ax.set_title(f"Performance of {player_name} Over the Years")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Performance")
+    ax.set_xticks(player_data['Year'])
+    ax.legend()
+    ax.grid()
+    return (fig)
+
 
 def fours_sixes_analysis(player_name):
     # Plotting the performance over the years
-    plt.figure(figsize=(12, 6))
-    plt.plot(player_data['Year'], player_data['Fours'], marker='o', label='Fours')
-    plt.plot(player_data['Year'], player_data['Sixes'], marker='o', label='Sixes')
-    plt.title(f"Performance of {player_name} Over the Years")
-    plt.xlabel("Year")
-    plt.ylabel("Performance")
-    plt.xticks(player_data['Year'])
-    plt.legend()
-    plt.grid()
-    plt.show()
+    fig,ax=plt.subplots(figsize=(12, 6))
+    ax.plot(player_data['Year'], player_data['Fours'], marker='o', label='Fours')
+    ax.plot(player_data['Year'], player_data['Sixes'], marker='o', label='Sixes')
+    ax.set_title(f"Performance of {player_name} Over the Years")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Performance")
+    ax.set_xticks(player_data['Year'])
+    ax.legend()
+    ax.grid()
+    return fig
 
 def bowling_analysis(player_name):
     # Plotting the performance over the years
-    plt.figure(figsize=(12, 6))
-    plt.plot(player_data['Year'], player_data['Wickets_Taken'], marker='o', label='Wickets Taken')
-    plt.bar(player_data['Year'], player_data['Runs_Conceded'], alpha=0.5, label='Runs Conceded', color='orange')
-    plt.title(f"Performance of {player_name} Over the Years")
-    plt.xlabel("Year")
-    plt.ylabel("Performance")
-    plt.xticks(player_data['Year'])
-    plt.legend()
-    plt.grid()
-    plt.show()
+    fig,ax=plt.subplots(figsize=(12, 6))
+    ax.plot(player_data['Year'], player_data['Wickets_Taken'], marker='o', label='Wickets Taken')
+    ax.bar(player_data['Year'], player_data['Runs_Conceded'], alpha=0.5, label='Runs Conceded', color='orange')
+    ax.set_title(f"Performance of {player_name} Over the Years")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Performance")
+    ax.set_xticks(player_data['Year'])
+    ax.legend()
+    ax.grid()
+    return fig
 
 def fielding_analysis(player_name):
     # Plotting the performance over the years
-    plt.figure(figsize=(12, 6))
-    plt.plot(player_data['Year'], player_data['Catches_Taken'], marker='o', label='Catches Taken')
-    plt.plot(player_data['Year'], player_data['Stumpings'], marker='o', label='Stumpings')
-    plt.title(f"Performance of {player_name} Over the Years")
-    plt.xlabel("Year")
-    plt.ylabel("Performance")
-    plt.xticks(player_data['Year'])
-    plt.legend()
-    plt.grid()
-    plt.show()
+    fig,ax=plt.subplots(figsize=(12, 6))
+    ax.plot(player_data['Year'], player_data['Catches_Taken'], marker='o', label='Catches Taken')
+    ax.plot(player_data['Year'], player_data['Stumpings'], marker='o', label='Stumpings')
+    ax.set_title(f"Performance of {player_name} Over the Years")
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Performance")
+    ax.set_xticks(player_data['Year'])
+    ax.legend()
+    ax.grid()
+    return fig
 
 
 
 
 
-while True:
-    player_name = input("Enter the name of the player: ")
+def player_analysis(player_name):
+    #importing the data
+    df = pd.read_csv("data/cricket_data_2025.csv")
 
+    global player_data
     player_data = df[df['Player_Name'] == player_name]
+
     if player_data.empty:
-        print( f"No data found for player: {player_name}" )
+        return(None)
     
     #print(player_data.columns)
     for i in player_data:
@@ -178,7 +182,7 @@ while True:
             except:
                 pass
     #player_data.info()
-    player_performance(player_name)
+    return(player_performance(player_name))
     batting_analysis(player_name)
     fours_sixes_analysis(player_name)
     bowling_analysis(player_name)
@@ -189,6 +193,106 @@ while True:
 
 
 
+
+
+
+
+
+def team_performance(team_name):
+    """
+    This function takes a team's name as input and returns their performance statistics.
+    """
+    matches_played = 0 
+    matches_won = 0
+    toss_won = 0
+    championships_won = 0
+    runner_up = 0
+    for i in team_data['team1']:
+        if i == team_name:
+            matches_played += 1
+    for i in team_data['team2']:
+        if i == team_name:
+            matches_played += 1
+    for i in team_data['winner']:
+        if i == team_name:
+            matches_won += 1
+    for i in team_data['toss_winner']:
+        if i == team_name:
+            toss_won += 1
+    for i in team_data[['team1','team2','winner','match_type']].values:
+        if i[0] == team_name and i[3] == 'Final' or i[1] == team_name and i[3] == 'Final':
+            if i[2] == team_name:
+                championships_won += 1
+            else:
+                runner_up += 1
+    
+    result = {
+        'Matches Played': matches_played,
+        'Matches Won': matches_won,
+        'Matches Lost': matches_played - matches_won,
+        'Win Percentage': matches_won / matches_played * 100 if matches_played > 0 else 0,
+        'Toss Won': toss_won,
+        'Toss Lost': matches_played - toss_won,
+        'Toss Win Percentage': toss_won / matches_played * 100 if matches_played > 0 else 0,
+        'Championships Won': championships_won,
+        'Runner Up': runner_up
+    }
+
+    #print(f"Performance statistics for {team_name}:")
+    # for key, value in result.items():
+    #     print(f"{key}: {value}")
+    return(result)
+
+
+def venue_performance_analysis(team_name):
+    """
+    This function takes a team's name as input and returns their performance statistics at different venues.
+    """
+    venue_performance = team_data.groupby('venue')['winner'].value_counts().unstack().fillna(0)
+    venue_performance['Total Matches'] = venue_performance.sum(axis=1)
+    venue_performance['Win Percentage'] = (venue_performance[team_name] / venue_performance['Total Matches']) * 100
+    venue_performance['Matches Won'] = venue_performance[team_name]
+
+    fig,ax=plt.subplots(figsize=(12, 10))
+    sns.barplot(y=venue_performance.index, x=venue_performance['Win Percentage'], data=venue_performance.reset_index())
+    for i in ax.containers:
+        ax.bar_label(i, label_type='edge', fontsize=10, color='black')
+    ax.set_xlim(0, 100)
+    ax.set_xticks(np.arange(0, 101, 10))
+    ax.set_xticklabels(np.arange(0, 101, 10), fontsize=10)
+    ax.set_yticklabels(venue_performance.index, fontsize=10)
+    ax.set_title(f"Win Percentage of {team_name} at Different Venues")
+    fig.tight_layout()
+    ax.set_ylabel("Venue")
+    ax.set_xlabel("Matches Won %")
+    return fig
+
+
+def team_analysis(team_name):
+    # importing the data
+    df = pd.read_csv("data/matches.csv")
+    global team_data
+    team_data = None
+    for i in df['team1'].unique():
+        if i == team_name:
+            team_data1 = df[df['team1'] == team_name] 
+            team_data2 = df[df['team2'] == team_name]
+            team_data = pd.concat([team_data1, team_data2], ignore_index=True)
+            team_data = team_data.drop_duplicates()
+            #team_name = 'Chennai Super Kings'
+            return(team_performance(team_name))
+        else:
+            continue
+    
+    if team_data is None:
+        return(None)
+
+
+
+
+
+#team_analysis('Chennai Super Kings')
+#player_analysis('MS Dhoni')
 
 
 
